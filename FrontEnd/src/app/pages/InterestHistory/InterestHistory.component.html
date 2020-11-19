@@ -1,0 +1,38 @@
+<div class="card">
+    <div class="card-header bg-primary text-light">
+        <div class="card-title">
+            <h4>Interest History</h4>
+            <form class="form-inline align-items-center" style="float: right;">
+              <div class="form-group mb-2">
+                Enter Loan ID
+              </div>
+              <div class="form-group mx-sm-3 mb-2">
+                <input type="text" class="form-control" [(ngModel)]="searchID" [ngModelOptions]="{standalone: true}">
+              </div>
+              <button type="submit" class="btn mb-2" (click)="searchByID()">Search</button>
+
+            </form>
+        </div>
+    </div>
+    <div class="card-body">
+        <h3>For Loan ID : {{loanID}}</h3>
+        <table class="table text-center">
+        <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Date of Paid</th>
+              <th>Time</th>
+              <th scope="col">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of historyTable; index as i">
+                <td>{{ i + 1 }}</td>
+                <td>{{ row.createdDate | date:'dd-MM-yyyy' }}</td>
+                <td>{{row.createdDate | date: 'hh:mm:ss'}}</td>
+                <td>{{row.interestAmount }}</td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+</div>

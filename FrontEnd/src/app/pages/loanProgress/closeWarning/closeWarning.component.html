@@ -1,0 +1,16 @@
+<div class="modal-header"> 
+<h3 class="text-warning">WARNING!</h3>
+<button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+    <p style="font-weight: bold;">Are you sure to close this Loan?</p>
+    <p>Name : <b>{{name}}</b> </p>
+    <p>Loan ID: <b>{{loanID}}</b> </p>
+    <p>Pending Amount : <b>{{pendingAmount}}</b> </p>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="confirm()">Confirm</button>
+	<button type="button" class="btn btn-primary" (click)="activeModal.close('Close click')">No</button>
+</div>

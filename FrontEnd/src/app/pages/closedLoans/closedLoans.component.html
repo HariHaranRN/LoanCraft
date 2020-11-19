@@ -1,0 +1,58 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header bg-primary text-light">
+        <h4 class="card-title"> Closed Loans</h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead class=" text-primary text-center">
+              <th>
+                S.No
+              </th>
+              <th>
+                Loan ID
+              </th>
+              <th>
+                Name
+              </th>
+              <th>
+                Date
+              </th>
+              <th>
+                Amount
+              </th>
+              <th>
+                Interest
+              </th>
+              <th>
+                Pending Amount
+              </th>
+              <th>
+                Info
+              </th>
+              <th>
+                Restore
+              </th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of closedTable.dataRows; index as i">
+                <td class="text-center">{{ i + 1 }}</td>
+                <td class="text-center text-primary">{{ row[0] }}</td>
+                <td class="text-center">{{row[1] }}</td>
+                <td class="text-center"> {{row[2] | date:'dd-MM-yyyy'}}</td>
+                <td class="text-center">{{row[3] | currency:'INR':'symbol-narrow':'0.0'}}</td>
+                <td class="text-center">{{row[4] | currency:'INR':'symbol-narrow':'0.0'}}</td>
+                <td class="text-danger text-center" *ngIf="row[5] > 0">{{row[5] | currency:'INR':'symbol-narrow':'0.0'}}</td>
+                <td class="text-success text-center" *ngIf="0 >= row[5]">{{row[5] | currency:'INR':'symbol-narrow':'0.0'}}</td>
+                <td class="text-warning text-center" ><i class="nc-icon nc-alert-circle-i" (click)="info(row[0])" style="font-size: 20px;cursor: pointer;"></i></td>
+                <td class="text-primary text-center"><i class="nc-icon nc-refresh-69" (click)="restore(row)"  style="font-size: 20px;cursor: pointer;"></i></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

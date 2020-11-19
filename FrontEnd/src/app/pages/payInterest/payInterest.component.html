@@ -1,0 +1,80 @@
+<div class="card">
+    <div class="card-header bg-primary text-light">
+        <div class="card-title">
+            <h4>Pay Interest</h4>
+            <form class="form-inline align-items-center" style="float: right;">
+              <div class="form-group mb-2">
+                Enter Loan ID
+              </div>
+              <div class="form-group mx-sm-3 mb-2">
+                <input type="text" class="form-control" [(ngModel)]="searchID" [ngModelOptions]="{standalone: true}">
+              </div>
+              <button type="submit" class="btn mb-2" (click)="searchByID()">Search</button>
+
+            </form>
+        </div>
+    </div>
+    <div class="card-body" >
+      <div class="row" *ngIf="showForm">
+        <div class="col-md-6">
+          <form [formGroup]="disabledForm">
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Loan ID</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" formControlName="loanID">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label" >Name</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" formControlName="name">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Parent Name</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" formControlName="pName">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Mobile</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" formControlName="mobileNo">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Amount</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" formControlName="amount">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Interest</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" formControlName="interest">
+              </div>
+            </div>
+            </form>
+          </div>
+          <div class="col-md-5">
+            <div class="card text-center">
+              <div class="card-body">
+                <h4>Pending Amount(₹)</h4><br>
+                <h5 class="text-success"><b>{{pendingAmount}}</b></h5>
+              </div>
+            </div>
+            <div>
+              <label>Enter Amount</label>
+              <input type="number" class="form-control"  [(ngModel)]="interestAmount" [ngModelOptions]="{standalone: true}">
+              <button type="button" class="btn btn-primary" style="width: 100%;" (click)="payInterest()">Pay ₹</button>
+            </div>
+          </div>
+        </div>
+      <div class="row" *ngIf="showStatus">
+        <div class="col-md-12" >
+          <p class="text-center" style="font-size: 70px;color: #ff5b5b;"><span class="nc-icon nc-satisfied"></span></p>
+          <h2 class="text-success text-center">Interest Paid SuccessFuly</h2>
+          <h5 class="text-center">Thank You</h5>
+        </div>
+      </div>
+</div>
