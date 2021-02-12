@@ -1,5 +1,5 @@
 # LoanCraft
-This my Mean Stack application developed by my own concept.
+This my Mean Stack application developed with my own concept.
 
  --Get the code  
 
