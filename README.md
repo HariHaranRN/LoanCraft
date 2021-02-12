@@ -1,5 +1,5 @@
 # LoanCraft
-This my Mean Stack application developed by my own concept with Creative-Tim template.
+This my Mean Stack application developed by my own concept.
 
  --Get the code  
 
