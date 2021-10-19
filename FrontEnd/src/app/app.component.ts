@@ -1,5 +1,6 @@
-import { AfterViewInit, Renderer2 } from '@angular/core';
+import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -7,12 +8,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent implements AfterViewInit{
+export class AppComponent implements OnInit{
 
-  constructor(private renderer: Renderer2) {}
-
-  ngAfterViewInit() {
-    // let loader = this.renderer.selectRootElement('#loader');
-    // this.renderer.setStyle(loader, 'display', 'none');
+  constructor(
+    private router: Router
+  ) {}
+  ngOnInit(): void {
+    let loginCheck = sessionStorage.getItem("login");
+    if(loginCheck == undefined || loginCheck == null || loginCheck == ""){
+      this.router.navigate(['login']);
+    }
   }
 }

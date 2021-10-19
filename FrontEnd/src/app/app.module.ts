@@ -12,12 +12,15 @@ import { AppRoutes } from './app.routing';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { LoginComponent } from './shared/login/login.component';
+import { ReactiveFormsModule } from "@angular/forms";
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    AdminLayoutComponent
+    AdminLayoutComponent,
+    LoginComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -29,7 +32,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     NavbarModule,
     ToastrModule.forRoot(),
     HttpClientModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

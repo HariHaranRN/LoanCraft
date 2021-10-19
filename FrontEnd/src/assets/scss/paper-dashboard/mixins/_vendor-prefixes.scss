@@ -36,7 +36,7 @@
           &.active > a[data-toggle="collapse"] i,
           &.active > a[data-toggle="collapse"] ~ div > ul > li.active .sidebar-mini-icon,
           &.active > a[data-toggle="collapse"] ~ div > ul > li.active > a {
-            color: $font-color;
+            color: #57baed;
             opacity: 1;
           }
         }

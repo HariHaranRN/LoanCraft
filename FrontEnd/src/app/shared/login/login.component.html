@@ -1,0 +1,18 @@
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+      <!-- Tabs Titles -->
+      <h2 class="active"> W E L C O M E </h2>
+  
+      <!-- Icon -->
+      <div class="fadeIn first">
+        <img src="https://www.pinclipart.com/picdir/big/165-1653686_female-user-icon-png-download-user-colorful-icon.png" id="icon" alt="User Icon"/>
+      </div>
+  
+      <!-- Login Form -->
+      <form autocomplete="off" [formGroup]="loginForm">
+        <input type="text" id="login" class="fadeIn second" formControlName="userName" placeholder="username">
+        <input type="password" id="password" class="fadeIn third" formControlName="password"  placeholder="password">
+        <input type="submit" class="fadeIn fourth" (click)="login()">
+      </form>
+    </div>
+  </div>

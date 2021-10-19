@@ -80,4 +80,9 @@ export class NavbarComponent implements OnInit{
 
       }
 
+      logout(){
+        sessionStorage.removeItem("login");
+        this.router.navigate(['login']);
+      }
+
 }
