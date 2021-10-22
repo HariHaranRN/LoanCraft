@@ -9,31 +9,31 @@
           <table class="table">
             <thead class=" text-primary text-center">
               <th>
-                S.No
+                S.NO
               </th>
               <th>
-                Loan ID
+                LOAN ID
               </th>
               <th>
-                Name
+                NAME
               </th>
               <th>
-                Date
+                DATE
               </th>
               <th>
-                Amount
+                AMOUNT
               </th>
               <th>
-                Interest
+                INTEREST
               </th>
               <th>
-                Pending Amount
+                PENDING AMOUNT
               </th>
               <th>
-                Info
+                QUICK LOOK
               </th>
               <th>
-                Restore
+                RESTORE
               </th>
             </thead>
             <tbody>
@@ -46,7 +46,7 @@
                 <td class="text-center">{{row[4] | currency:'INR':'symbol-narrow':'0.0'}}</td>
                 <td class="text-danger text-center" *ngIf="row[5] > 0">{{row[5] | currency:'INR':'symbol-narrow':'0.0'}}</td>
                 <td class="text-success text-center" *ngIf="0 >= row[5]">{{row[5] | currency:'INR':'symbol-narrow':'0.0'}}</td>
-                <td class="text-warning text-center" ><i class="nc-icon nc-alert-circle-i" (click)="info(row[0])" style="font-size: 20px;cursor: pointer;"></i></td>
+                <td class="text-center" ><i class="nc-icon nc-zoom-split" (click)="info(row[0])" style="font-size: 20px;cursor: pointer;"></i></td>
                 <td class="text-primary text-center"><i class="nc-icon nc-refresh-69" (click)="restore(row)"  style="font-size: 20px;cursor: pointer;"></i></td>
             </tr>
             </tbody>

@@ -44,33 +44,37 @@ export class LoanProgressComponent implements OnInit{
             mobileNo: [{ value: "", disabled: false},[Validators.required]],
             aMobileNo: [{ value: "", disabled: false}],
             address: [{ value: "", disabled: false},[Validators.required]],
-            amount: [{ value: "", disabled: true},[Validators.required]],
-            interest: [{ value: "", disabled: true},[Validators.required]],
+            amount: [{ value: "", disabled: false},[Validators.required]],
+            interest: [{ value: "", disabled: false},[Validators.required]],
             interestPaid: [{ value: 0, disabled: true},[Validators.required]],
             notes: [{ value: "", disabled: false}]
         });
     }
-    ngOnInit(){
-
-        this.LPS.onLoanChanged.subscribe((result: any)=>{
-            for(let i= 0; i < result.length; i++){
-                let created = new Date(result[i].date);
+    async ngOnInit(){
+        this.progressTable = {
+            dataRows : []
+        }
+        let result = await this.LPS.getLoans(true);
+        let finalData = result.data.getLoans;
+        if(finalData.length > 0){
+            for(let i= 0; i < finalData.length; i++){
+                let created = new Date(finalData[i].date);
                 let currentDate = new Date();
                 var months;
                 months = (currentDate.getFullYear() - created.getFullYear()) * 12;
                 months -= created.getMonth();
                 months += currentDate.getMonth();
                 months <= 0 ? 0 : months;
-                var total = months * result[i].interest;
-                var pendingAmount = total - result[i].interestPaid;
-                this.datas[i] = [ result[i].loanID, result[i].name, result[i].date, result[i].amount, result[i].interest , pendingAmount, result[i]._id]
+                var total = months * finalData[i].interest;
+                var pendingAmount = total - finalData[i].interestPaid;
+                this.datas[i] = [ finalData[i].loanID, finalData[i].name, finalData[i].date, finalData[i].amount, finalData[i].interest , pendingAmount]
             }
             this.datas.sort();
             this.datas.reverse();
             this.progressTable = {
                 dataRows : this.datas
             }
-        });
+        }
     }
 
     backToGrid(){
@@ -118,47 +122,53 @@ export class LoanProgressComponent implements OnInit{
         modalRef.componentInstance.data = data;
     }
 
-    editLoan(ID, PA){
+    async editLoan(ID: any, PA: any){
         this.spinner.show();
         sessionStorage.setItem('pendingAmount', PA);
         this.showTable = false;
         this.showEdit = true;
-        this.LPS.getLoanByID(ID).then((result)=>{
-            this.loanData = result;
-            this.loanUpdateID = result[0]._id;
-            this.editLoanForm.get('name').setValue(result[0].name);
-            this.editLoanForm.get('pName').setValue(result[0].pName);
-            this.editLoanForm.get('date').setValue(new Date(result[0].date).toISOString().split('T')[0]);
-            this.editLoanForm.get('mobileNo').setValue(result[0].mobileNo);
-            this.editLoanForm.get("aMobileNo").setValue(result[0].aMobileNo);
-            this.editLoanForm.get("address").setValue(result[0].address);
-            this.editLoanForm.get("amount").setValue(result[0].amount);
-            this.editLoanForm.get("interest").setValue(result[0].interest);
-            this.editLoanForm.get("interestPaid").setValue(result[0].interestPaid);
-            this.editLoanForm.get("notes").setValue(result[0].notes);
-        });
+        let result = await this.LPS.getLoanByID(ID);
+        let data = result.data.getLoanByID;
+        this.loanData = data;
+        if(data.length > 0){
+            this.loanUpdateID = data[0].loanID;
+            this.editLoanForm.get('name').setValue(data[0].name);
+            this.editLoanForm.get('pName').setValue(data[0].parentName);
+            this.editLoanForm.get('date').setValue(data[0].date);
+            this.editLoanForm.get('mobileNo').setValue(data[0].mobile);
+            this.editLoanForm.get("aMobileNo").setValue(data[0].aMobile);
+            this.editLoanForm.get("address").setValue(data[0].address);
+            this.editLoanForm.get("amount").setValue(data[0].amount);
+            this.editLoanForm.get("interest").setValue(data[0].interest);
+            this.editLoanForm.get("notes").setValue(data[0].notes);
+        }else {
+            this.Toastr.error('Something went wrong', '', {
+                timeOut: 3000,
+                positionClass: 'toast-top-center'
+            });
+            this.router.navigate(['loanProgress']);
+        }
         this.spinner.hide();
     }
 
-    confirmEdit(){
+    async confirmEdit(){
         var submittedValues = this.editLoanForm.value;
-        submittedValues._id = this.loanUpdateID;
-        this.LPS.updateLoan(submittedValues).then((result: any)=>{
-            if(result.statusCode == 200){
-                this.Toastr.success( 'Updated Successfully', 'Success', {
-                    timeOut: 3000,
-                    positionClass: 'toast-bottom-center'
-                  });
-                  this.router.navigateByUrl('/progressReport', { skipLocationChange: true }).then(() => {
-                    this.router.navigate(['loanProgress']);
-                  });
-            }else{
-                this.Toastr.error( 'Something went wrong', 'Failed', {
-                    timeOut: 3000,
-                    positionClass: 'toast-bottom-center'
-                  });
-            }
-        });
+        submittedValues.loanID = this.loanUpdateID;
+        let result = await this.LPS.updateLoan(submittedValues);
+        if(result.data){
+            this.Toastr.success( 'Updated Successfully', '', {
+                timeOut: 3000,
+                positionClass: 'toast-top-center'
+                });
+                this.router.navigateByUrl('/progressReport', { skipLocationChange: true }).then(() => {
+                this.router.navigate(['loanProgress']);
+                });
+        }else{
+            this.Toastr.error( 'Something went wrong', '', {
+                timeOut: 3000,
+                positionClass: 'toast-top-center'
+                });
+        }
     }
 
     deleteLoan(row){

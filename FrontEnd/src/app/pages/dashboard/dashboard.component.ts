@@ -24,34 +24,36 @@ export class DashboardComponent implements OnInit{
 
   }
 
-ngOnInit(){
-  this.DS.onActiveLoanChanged.subscribe((result: any)=>{
-    this.progressLoans = result.length;
-    var total;
-    var pendingAmount;
-    for(let i= 0; i < result.length; i++){
-      let created = new Date(result[i].date);
-      let currentDate = new Date();
-      var months;
-      months = (currentDate.getFullYear() - created.getFullYear()) * 12;
-      months -= created.getMonth();
-      months += currentDate.getMonth();
-      months <= 0 ? 0 : months;
-      total = months * result[i].interest;
-      pendingAmount = total - result[i].interestPaid;
-      this.calc2[i] = result[i].amount;
-      if(pendingAmount > 0){
-        this.calc[i] = pendingAmount;
-      }
+  async ngOnInit(){
+    const result = await this.DS.getDashboard();
+    const dashboard = result.data.getDashboard;
+      this.totalLoans = dashboard.length;
+      var total;
+      var pendingAmount;
+      for(let i= 0; i < dashboard.length; i++){
+        let created = new Date(dashboard[i].date);
+        let currentDate = new Date();
+        var months;
+        months = (currentDate.getFullYear() - created.getFullYear()) * 12;
+        months -= created.getMonth();
+        months += currentDate.getMonth();
+        months <= 0 ? 0 : months;
+        total = months * dashboard[i].interest;
+        pendingAmount = total - dashboard[i].interestPaid;
+        this.calc2[i] = dashboard[i].amount;
+        if(pendingAmount > 0){
+          this.calc[i] = pendingAmount;
+        }
+        if(dashboard[i].isActive){
+          this.progressLoans = this.progressLoans + 1;
+        }else {
+          this.closedLoans = this.closedLoans + 1;
+        }
+
+    }
+      var count = this.calc.reduce((accum,item) => accum + item, 0);
+      var count2 = this.calc2.reduce((accum,item) => accum + item, 0);
+      this.pendingInterest = count;
+      this.totalLoan = count2;
   }
-    var count = this.calc.reduce((accum,item) => accum + item, 0);
-    var count2 = this.calc2.reduce((accum,item) => accum + item, 0);
-    this.pendingInterest = count;
-    this.totalLoan = count2;
-  });
-  this.DS.onClosedLoanChanged.subscribe((result: any)=>{
-    this.closedLoans = result.length;
-  });
-  this.totalLoans = this.progressLoans + this.closedLoans;
-}
-}
+  }

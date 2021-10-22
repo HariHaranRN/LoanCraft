@@ -9,31 +9,31 @@
           <table class="table">
             <thead class="text-primary text-center" style="font-size: 15px;">
               <th>
-                S.No
+                S.NO
               </th>
               <th>
-                Loan ID
+                LOAN ID
               </th>
               <th>
-                Name
+                NAME
               </th>
               <th>
-                Date
+                DATE
               </th>
               <th>
-                Amount
+                AMOUNT
               </th>
               <th>
-                Interest
+                INTEREST
               </th>
               <th>
-                Pending Amount
+                PENDING AMOUNT
               </th>
               <th>
-                Full Details
+                QUICK LOOK
               </th>
               <th>
-                Customize
+                CUSTOMIZE
               </th>
               <!-- <th>
                 Delete
@@ -49,9 +49,9 @@
                 <td class="text-center">{{row[4] | currency:'INR':'symbol-narrow':'0.0'}}</td>
                 <td class="text-danger text-center" *ngIf="row[5] > 0">{{row[5] | currency:'INR':'symbol-narrow':'0.0'}}</td>
                 <td class="text-success text-center" *ngIf="0 >= row[5]">{{row[5] | currency:'INR':'symbol-narrow':'0.0'}}</td>
-                <td class="text-warning text-center" ><i class="nc-icon nc-alert-circle-i" (click)="info(row[0])" style="font-size: 20px;cursor: pointer;"></i></td>
-                <td class="text-primary text-center"><i class="nc-icon nc-palette" (click)="editLoan(row[0], row[5])" style="font-size: 20px;cursor: pointer;"></i></td>
-                <!-- <td class="text-danger text-center"><i class="nc-icon nc-basket" (click)="deleteLoan(row)" style="font-size: 20px;cursor: pointer;"></i></td> -->
+                <td class="text-center" ><i class="nc-icon nc-zoom-split" (click)="info(row[0])" style="font-size: 20px;cursor: pointer;"></i></td>
+                <td class="text-center"><i class="nc-icon nc-settings text-primary" (click)="editLoan(row[0], row[5])" style="font-size: 20px;cursor: pointer;"></i>&nbsp;&nbsp;&nbsp;&nbsp;<i class="nc-icon nc-basket" (click)="deleteLoan(row)" style="font-size: 20px;cursor: pointer;color: red;"></i></td>
+                <!-- <td class="text-danger text-center"></td> -->
             </tr>
             </tbody>
           </table>
@@ -63,8 +63,8 @@
     <div class="card">
       <div class="card-header">
         <h5 class="card-title">
-          <button type="button" class="btn btn-primary" (click)="backToGrid()"><i class="nc-icon nc-minimal-left"></i>Back</button>
-          <button type="button" style="float: right;" class="btn btn-danger" (click)="closeLoan(loanData)"><i class="nc-icon nc-simple-remove"></i>Close Loan</button>
+          <button type="button" class="btn btn-primary btn-sm" (click)="backToGrid()">BACK</button>
+          <button type="button" style="float: right;" class="btn btn-danger btn-sm" (click)="closeLoan(loanData)">CLOSE LOAN</button>
         </h5>
       </div>
       <div class="card-body">
@@ -124,22 +124,22 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-4 pr-1">
+            <div class="col-md-6 pr-1">
               <div class="form-group">
                 <label>Amount</label>
                 <input type="number" class="form-control" formControlName="amount" required >
+                <small style="font-size: 70%;" *ngIf="editLoanForm.get('amount').hasError('required') && editLoanForm.get('amount').touched">
+                  <b class="text-danger">Required!</b>
+                </small>
               </div>
             </div>
-            <div class="col-md-4 px-1">
+            <div class="col-md-6 px-1">
               <div class="form-group">
-                <label>Interest</label>
+                <label>Interest(per month)</label>
                 <input type="number" class="form-control" formControlName="interest" required >
-              </div>
-            </div>
-            <div class="col-md-4 pl-1">
-              <div class="form-group">
-                <label>Interest Paid</label>
-                <input type="number" class="form-control"  formControlName="interestPaid" required >
+                <small style="font-size: 70%;" *ngIf="editLoanForm.get('interest').hasError('required') && editLoanForm.get('interest').touched">
+                  <b class="text-danger">Required!</b>
+                </small>
               </div>
             </div>
           </div>
@@ -147,13 +147,13 @@
             <div class="col-md-12">
               <div class="form-group">
                 <label>Notes</label>
-                <textarea class="form-control textarea"formControlName="notes" ></textarea>
+                <textarea class="form-control textarea" formControlName="notes" ></textarea>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="update ml-auto mr-auto">
-              <button type="button" class="btn btn-success btn-round" (click)="confirmEdit()">&nbsp;&nbsp;Save Changes&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;&nbsp;
+              <button type="button" class="btn btn-success btn-round" (click)="confirmEdit()">&nbsp;&nbsp;SAVE CHANGES&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;&nbsp;
             </div>
           </div>
         </form>

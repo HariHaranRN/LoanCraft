@@ -1,39 +1,31 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'environments/environment';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { API } from 'aws-amplify'
 
 @Injectable()
 export class LoanHistoryService{
 
     loanHistoryDatas = [];
     constructor(
-        private http: HttpClient,
         private spinner: NgxSpinnerService
     ) {
 
     }
 
 
-    getLoanHistorys(loanID): Promise<any> {
+    async getLoanHistorys(loanID: any): Promise<any> {
         this.spinner.show();
-        return new Promise((resolve, reject) => {
-            this.http.post(`http://localhost:92/history/getByID`, {
-                loanID: loanID
-            }).subscribe(res => {
-                const result: any = res;
-                this.loanHistoryDatas = [];
-                if (result.statusCode == 200) {
-                    this.loanHistoryDatas = result.data;
+        const query = `
+            query getLoanHistoryByID {
+                getLoanHistoryByID(loanID: "${loanID}") {
+                date
+                interestPaid
                 }
-                resolve(this.loanHistoryDatas);
-                this.spinner.hide();
-            }, error => {
-                this.loanHistoryDatas = [];
-                reject(this.loanHistoryDatas);
-                this.spinner.hide();
-            });
-        });
+            }
+        `
+        const result = await API.graphql({ query });
+        this.spinner.hide();
+        return result;
     }
 
 

@@ -36,7 +36,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="exampleInputEmail1">Mobile No</label>
-                <input type="number" class="form-control" formControlName="mobileNo" required>
+                <input type="text" class="form-control" formControlName="mobileNo" required>
                 <small style="font-size: 70%;" *ngIf="newLoanForm.get('mobileNo').hasError('required') && newLoanForm.get('mobileNo').touched">
                   <b class="text-danger">Required!</b>
                 </small>
@@ -45,7 +45,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label>Alternate Mobile No</label>
-                <input type="number" class="form-control" formControlName="aMobileNo">
+                <input type="text" class="form-control" formControlName="aMobileNo">
               </div>
             </div>
           </div>
@@ -61,7 +61,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-4 pr-1">
+            <div class="col-md-6 pr-1">
               <div class="form-group">
                 <label>Amount</label>
                 <input type="number" class="form-control" formControlName="amount" required>
@@ -70,20 +70,11 @@
                 </small>
               </div>
             </div>
-            <div class="col-md-4 px-1">
+            <div class="col-md-6 px-1">
               <div class="form-group">
-                <label>Interest</label>
+                <label>Interest(per month)</label>
                 <input type="number" class="form-control" formControlName="interest" required>
                 <small style="font-size: 70%;" *ngIf="newLoanForm.get('interest').hasError('required') && newLoanForm.get('interest').touched">
-                  <b class="text-danger">Required!</b>
-                </small>
-              </div>
-            </div>
-            <div class="col-md-4 pl-1">
-              <div class="form-group">
-                <label>Interest Paid</label>
-                <input type="number" class="form-control"  formControlName="interestPaid" required>
-                <small style="font-size: 70%;" *ngIf="newLoanForm.get('interestPaid').hasError('required') && newLoanForm.get('interestPaid').touched">
                   <b class="text-danger">Required!</b>
                 </small>
               </div>
@@ -99,8 +90,8 @@
           </div>
           <div class="row">
             <div class="update ml-auto mr-auto">
-              <button type="submit" class="btn btn-success btn-round" [disabled]="(!newLoanForm.valid)" (click)="submit()">&nbsp;&nbsp;Submit&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;&nbsp;
-              <button type="submit" class="btn btn-outline-info btn-round" (click)="clearForm()">Reset</button>
+              <button type="submit" class="btn btn-success btn-round" [disabled]="(!newLoanForm.valid)" (click)="submit()">&nbsp;&nbsp;SUBMIT&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;&nbsp;
+              <button type="submit" class="btn btn-outline-info btn-round" (click)="clearForm()">RESET</button>
             </div>
           </div>
         </form>

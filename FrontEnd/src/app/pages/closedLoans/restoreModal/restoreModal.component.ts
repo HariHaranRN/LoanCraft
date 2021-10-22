@@ -19,7 +19,6 @@ loanHolder;
   constructor(
       public activeModal: NgbActiveModal,
       private LPS: LoanProgressService,
-      private spinner: NgxSpinnerService,
       private Toastr: ToastrService,
       private router: Router) { 
       }
@@ -28,22 +27,19 @@ loanHolder;
     this.loanHolder = this.rowData[1];
   }
 
-  confirm(){
-    this.spinner.show();
-    var id = this.rowData[6];
-    this.LPS.updateLoanStatus(id, true).then((result: any) =>{
-        if(result.statusCode == 200){
-            this.router.navigateByUrl('/progressReport', { skipLocationChange: true }).then(() => {
-                this.router.navigate(['closedLoans']);
-            }); 
-        }else{
-            this.Toastr.error( 'Something went wrong', 'Failed', {
-                timeOut: 3000,
-                positionClass: 'toast-bottom-center'
-              });
-        }
-    });
-    this.spinner.hide();
+  async confirm(){
+    let result = await this.LPS.updateLoanStatus(this.loanID, true);
+    let status = result.data.changeLoanStatus.isActive;
+    if(status){
+        this.router.navigateByUrl('/progressReport', { skipLocationChange: true }).then(() => {
+            this.router.navigate(['closedLoans']);
+        }); 
+    }else{
+        this.Toastr.error( 'Something went wrong', '', {
+            timeOut: 3000,
+            positionClass: 'toast-top-center'
+          });
+    }
     this.activeModal.close();
   }
 

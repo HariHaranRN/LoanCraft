@@ -14,7 +14,7 @@ export class AppComponent implements OnInit{
     private router: Router
   ) {}
   ngOnInit(): void {
-    let loginCheck = sessionStorage.getItem("login");
+    let loginCheck = localStorage.getItem("login");
     if(loginCheck == undefined || loginCheck == null || loginCheck == ""){
       this.router.navigate(['login']);
     }

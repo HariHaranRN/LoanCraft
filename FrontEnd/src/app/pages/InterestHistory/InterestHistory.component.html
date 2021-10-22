@@ -9,28 +9,27 @@
               <div class="form-group mx-sm-3 mb-2">
                 <input type="text" class="form-control" [(ngModel)]="searchID" [ngModelOptions]="{standalone: true}">
               </div>
-              <button type="submit" class="btn mb-2" (click)="searchByID()">Search</button>
+              <button type="submit" class="btn btn-info mb-3 text-primary" style="background-color: white;" (click)="searchByID()">Search</button>
 
             </form>
         </div>
     </div>
     <div class="card-body" style="padding: 40px 20px;">
-        <h3>For Loan ID : {{loanID}}</h3>
         <table class="table text-center">
         <thead>
             <tr>
               <th scope="col">#</th>
-              <th scope="col">Date of Paid</th>
-              <th>Time</th>
-              <th scope="col">Amount</th>
+              <th scope="col">DATE OF PAID</th>
+              <th>TIME</th>
+              <th scope="col">AMOUNT</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let row of historyTable; index as i">
                 <td>{{ i + 1 }}</td>
-                <td>{{ row.createdDate | date:'dd-MM-yyyy' }}</td>
-                <td>{{row.createdDate | date: 'hh:mm:ss'}}</td>
-                <td>{{row.interestAmount }}</td>
+                <td>{{ row.date | date:'dd-MM-yyyy' }}</td>
+                <td>{{row.date | date: 'hh:mm:ss'}}</td>
+                <td>{{row.interestPaid }} rs</td>
             </tr>
           </tbody>
         </table>

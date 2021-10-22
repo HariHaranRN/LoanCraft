@@ -19,8 +19,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      userName: [{ value: "", disabled: false},[Validators.required]],
-      password: [{ value: "", disabled: false},[Validators.required]],
+      userName: [{ value: "hariharan", disabled: false},[Validators.required]],
+      password: [{ value: "16itr029IT", disabled: false},[Validators.required]],
   });
   }
 
@@ -28,13 +28,12 @@ export class LoginComponent implements OnInit {
     const username = "hariharan";
     const password = "16itr029IT";
     if(this.loginForm.value.userName == username && this.loginForm.value.password == password){
-      sessionStorage.setItem("login", "yes");
+      localStorage.setItem("login", "yes");
       this.router.navigate(['dashboard']);
     }else {
-      sessionStorage.removeItem("login");
+      localStorage.removeItem("login");
       this.toastr.error("Username or Password is wrong");
     }
-    debugger
   }
 
 }

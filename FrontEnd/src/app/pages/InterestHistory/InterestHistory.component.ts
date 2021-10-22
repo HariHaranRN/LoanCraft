@@ -10,7 +10,6 @@ import { LoanHistoryService } from './interestHistory.service';
 export class InterestHistoryComponent implements OnInit{
     searchID;
     historyTable;
-    loanID;
 
     constructor(
         private LHS: LoanHistoryService,
@@ -22,18 +21,20 @@ export class InterestHistoryComponent implements OnInit{
     ngOnInit(){
     }
 
-    searchByID(){
-        this.LHS.getLoanHistorys(this.searchID).then((result: any)=>{
-            if(result.length > 0){
-            this.loanID = this.searchID;
-            this.historyTable = result;
+    async searchByID(){
+        let result = await this.LHS.getLoanHistorys(this.searchID);
+        let finalResult = result.data.getLoanHistoryByID;
+            if(finalResult.length > 0){
+                for(let i = 0; i < finalResult.length; i++){
+                    finalResult[i].date = new Date(finalResult[i].date.replace(/['"]+/g, ''));
+                }
+                this.historyTable = finalResult;
             }else{
                 this.historyTable = [];
-                this.Toastr.warning( 'No list found', '', {
+                this.Toastr.warning( 'No History Found ', '', {
                     timeOut: 3000,
-                    positionClass: 'toast-bottom-center'
+                    positionClass: 'toast-top-center'
                   });
             }
-        })
     }
 }

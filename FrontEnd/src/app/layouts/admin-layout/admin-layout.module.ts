@@ -15,17 +15,13 @@ import { ProgressReportComponent } from 'app/pages/progressReport/progressReport
 import { NewLoanService } from 'app/pages/newLoan/new-loan.service';
 import { LoanProgressService } from 'app/pages/loanProgress/loanProgress.service';
 import { InfoModalComponent } from 'app/pages/loanProgress/infoModel/infoModal.component';
-import { InfoModalService } from 'app/pages/loanProgress/infoModel/infoModal.service';
 import { DeleteLoanComponent } from 'app/pages/loanProgress/deleteLoan/deleteLoan.component';
 import { CloseWarningComponent } from 'app/pages/loanProgress/closeWarning/closeWarning.component';
-import { ClosedLoanService } from 'app/pages/closedLoans/closedLoans.service';
 import { RestoreLoanComponent } from 'app/pages/closedLoans/restoreModal/restoreModal.component';
 import { PayInterestComponent } from 'app/pages/payInterest/payInterest.component';
 import { PayInterestService } from 'app/pages/payInterest/payInterest.service';
 import { InterestHistoryComponent } from 'app/pages/InterestHistory/InterestHistory.component';
 import { LoanHistoryService } from 'app/pages/InterestHistory/interestHistory.service';
-import { InfoModal2Service } from 'app/pages/closedLoans/infoModel/infoModal.service';
-import { InfoModal2Component } from 'app/pages/closedLoans/infoModel/infoModal.component';
 import { DashboardService } from 'app/pages/dashboard/dashboard.service';
 
 @NgModule({
@@ -48,24 +44,19 @@ import { DashboardService } from 'app/pages/dashboard/dashboard.service';
     RestoreLoanComponent,
     PayInterestComponent,
     InterestHistoryComponent,
-    InfoModal2Component
   ],
   providers: [
     DashboardService,
     NewLoanService,
     LoanProgressService,
-    InfoModalService,
-    ClosedLoanService,
     PayInterestService,
     LoanHistoryService,
-    InfoModal2Service
   ],
   entryComponents: [
     InfoModalComponent,
     DeleteLoanComponent,
     CloseWarningComponent,
     RestoreLoanComponent,
-    InfoModal2Component
   ]
 })
 

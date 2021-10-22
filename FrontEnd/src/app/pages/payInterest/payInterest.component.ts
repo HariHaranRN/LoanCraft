@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { LoanProgressService } from '../loanProgress/loanProgress.service';
 import { PayInterestService } from './payInterest.service';
 
 
@@ -14,7 +13,6 @@ import { PayInterestService } from './payInterest.service';
 export class PayInterestComponent implements OnInit{
     disabledForm: FormGroup;
     searchID;
-    loanUpdateID;
     interestPaid;
     pendingAmount = 0;
     interestAmount;
@@ -25,8 +23,7 @@ export class PayInterestComponent implements OnInit{
         private fb: FormBuilder,
         private PIS: PayInterestService,
         private Toastr: ToastrService,
-        private spinner: NgxSpinnerService,
-        private router: Router
+        private LPS: LoanProgressService
     ){
         this.disabledForm = fb.group({
             loanID: [{ value: "", disabled: true},[Validators.required]],
@@ -45,27 +42,28 @@ export class PayInterestComponent implements OnInit{
     }
 
 
-    searchByID(){
-        this.PIS.getLoanByID(this.searchID).then((result: any)=>{
-            if(result.length > 0){
-                this.interestPaid = result[0].interestPaid;
-                this.loanUpdateID = result[0]._id;
-                let created = new Date(result[0].date);
+    async searchByID(){
+        let result = await this.LPS.getLoanByID(this.searchID);
+        let finalResult = result.data.getLoanByID;
+            if(finalResult.length > 0){
+                this.interestPaid = finalResult[0].interestPaid;
+                debugger
+                let created = new Date(finalResult[0].date);
                 let currentDate = new Date();
                 var months;
                 months = (currentDate.getFullYear() - created.getFullYear()) * 12;
                 months -= created.getMonth();
                 months += currentDate.getMonth();
                 months <= 0 ? 0 : months;
-                var total = months * result[0].interest;
-                var pending = total - result[0].interestPaid;
+                var total = months * finalResult[0].interest;
+                var pending = total - finalResult[0].interestPaid;
                 this.pendingAmount = pending;
-                this.disabledForm.get('loanID').setValue(result[0].loanID)
-                this.disabledForm.get('name').setValue(result[0].name);
-                this.disabledForm.get('pName').setValue(result[0].pName);
-                this.disabledForm.get('mobileNo').setValue(result[0].mobileNo);
-                this.disabledForm.get("amount").setValue(result[0].amount);
-                this.disabledForm.get("interest").setValue(result[0].interest);
+                this.disabledForm.get('loanID').setValue(finalResult[0].loanID)
+                this.disabledForm.get('name').setValue(finalResult[0].name);
+                this.disabledForm.get('pName').setValue(finalResult[0].parentName);
+                this.disabledForm.get('mobileNo').setValue(finalResult[0].mobile);
+                this.disabledForm.get("amount").setValue(finalResult[0].amount);
+                this.disabledForm.get("interest").setValue(finalResult[0].interest);
                 this.showForm = true;
                 this.showStatus = false;
             }else{
@@ -78,48 +76,44 @@ export class PayInterestComponent implements OnInit{
                 this.disabledForm.get("interest").setValue("");
                 this.showForm = true;
                 this.showStatus = false;
-                this.Toastr.warning( "No List Found", '', {
+                this.Toastr.error( "Wrong Loan ID", '', {
                     timeOut: 3000,
-                    positionClass: 'toast-bottom-center'
+                    positionClass: 'toast-top-center'
                   });
             }
-        })
     }
 
-    payInterest(){
+    async payInterest(){
         if(this.interestAmount === undefined || null ){
-            this.Toastr.error( "Please pay some amount", '', {
+            this.Toastr.error( "Please enter the amount", '', {
                 timeOut: 3000,
-                positionClass: 'toast-bottom-center'
+                positionClass: 'toast-top-center'
+              });
+        }else if(this.interestAmount < 100){
+            this.Toastr.error( "Minimum amount is 100", '', {
+                timeOut: 3000,
+                positionClass: 'toast-top-center'
+              });
+        }else if(this.interestAmount > this.pendingAmount ){
+            this.Toastr.warning( "Entered amount is more than pending amount", '', {
+                timeOut: 3000,
+                positionClass: 'toast-top-center'
               });
         }else{
-        this.spinner.show();
         var data: any = [];
-        data.id = this.loanUpdateID;
-        if(this.interestPaid != undefined){
-        data.interestPaid = this.interestPaid + this.interestAmount;
+        data.loanID = this.disabledForm.value.loanID;
+        data.interestPaid = this.interestAmount;
+        let result = await this.PIS.updateLoanInterest(data);
+        if(result.data){
+            this.showForm = false;
+            this.showStatus = true;
+            this.interestAmount = 0;
+        }else{
+            this.Toastr.error( "Something went wrong", '', {
+                timeOut: 3000,
+                positionClass: 'toast-top-center'
+            });
         }
-        this.PIS.updateLoanInterest(data).then((result: any)=>{
-            if(result.statusCode == 200 ){
-                this.PIS.addHistory(this.searchID, this.interestAmount);
-                this.showForm = false;
-                this.showStatus = true;
-                this.interestAmount = 0;
-                // this.router.navigateByUrl('/progressReport', { skipLocationChange: true }).then(() => {
-                //     this.router.navigate(['payInterest']);
-                //     this.Toastr.success( "Paid Successfully", '', {
-                //         timeOut: 3000,
-                //         positionClass: 'toast-bottom-center'
-                //       });
-                //   });
-            }else{
-                this.Toastr.error( "Something went wrong", '', {
-                    timeOut: 3000,
-                    positionClass: 'toast-bottom-center'
-                  });
-            }
-        });
-        this.spinner.hide();
     }
     }
 }

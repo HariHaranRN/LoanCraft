@@ -15,7 +15,6 @@ import { PayInterestService } from '../payInterest/payInterest.service';
 export class NewLoanComponent implements OnInit{
 
     newLoanForm: FormGroup;
-    loanID;
 
     constructor(
         private fb: FormBuilder,
@@ -43,9 +42,11 @@ export class NewLoanComponent implements OnInit{
     }
 
     clearForm(){
+        var today = new Date().toISOString().split('T')[0];
+
         this.newLoanForm.get('name').setValue("");
         this.newLoanForm.get('pName').setValue("");
-        this.newLoanForm.get('date').setValue("");
+        this.newLoanForm.get('date').setValue(today);
         this.newLoanForm.get('mobileNo').setValue("");
         this.newLoanForm.get("aMobileNo").setValue("");
         this.newLoanForm.get("address").setValue("");
@@ -70,29 +71,37 @@ export class NewLoanComponent implements OnInit{
 
     }
 
-    submit(){
-        this.spinner.show();
-        var submittedValues = this.newLoanForm.value;
-        this.NLS.addNewLoan(submittedValues).then((result: any)=>{
-            if( result.statusCode == 200 ){
-                this.loanID = result.data.loanID;
-                if(submittedValues.interestPaid > 0){
-                    this.PIS.addHistory(this.loanID, submittedValues.interestPaid);
-                }
-                this.spinner.hide();
-                this.Toastr.success( 'New Loan Created', 'Success', {
-                    timeOut: 3000,
-                    positionClass: 'toast-bottom-center'
-                  });
-                  this.clearForm();
-                  this.router.navigate(['/loanProgress']);
-            }else{
-                this.spinner.hide();
-                this.Toastr.error( "Check the details", 'Failed', {
-                    timeOut: 3000,
-                    positionClass: 'toast-bottom-center'
-                  });
+    async submit(){
+        var submittedValues = {
+            name: this.newLoanForm.value.name,
+            pName: this.newLoanForm.value.pName,
+            date: this.newLoanForm.value.date,
+            mobileNo: this.newLoanForm.value.mobileNo,
+            aMobileNo: this.newLoanForm.value.aMobileNo,
+            address: this.newLoanForm.value.address,
+            amount: this.newLoanForm.value.amount,
+            interest: this.newLoanForm.value.interest,
+            interestPaid: this.newLoanForm.value.interestPaid,
+            notes: this.newLoanForm.value.notes
+        };
+        let result = await this.NLS.addNewLoan(submittedValues);
+        if(result){
+            const data = result.data.createLoan;
+            if(submittedValues.interestPaid > 0){
             }
-        });
+            this.spinner.hide();
+            this.Toastr.success( 'Loan Created Successfully', '', {
+                timeOut: 3000,
+                positionClass: 'toast-top-center'
+                });
+                this.clearForm();
+                this.router.navigate(['/loanProgress']);
+        }else{
+            this.spinner.hide();
+            this.Toastr.error( "Something went wrong", '', {
+                timeOut: 3000,
+                positionClass: 'toast-top-center'
+                });
+        }
     }
 }
