@@ -4,7 +4,7 @@ import { LoanHistoryService } from './interestHistory.service';
 
 @Component({
     selector: 'interestHistory-cmp',
-    templateUrl: 'interestHistory.component.html'
+    templateUrl: './interestHistory.component.html'
 })
 
 export class InterestHistoryComponent implements OnInit{

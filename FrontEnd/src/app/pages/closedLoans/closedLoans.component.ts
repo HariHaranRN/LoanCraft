@@ -11,7 +11,7 @@ declare interface TableData {
 @Component({
     selector: 'closedLoans-cmp',
     moduleId: module.id,
-    templateUrl: 'closedLoans.component.html'
+    templateUrl: './closedLoans.component.html'
 })
 
 export class ClosedLoansComponent implements OnInit{

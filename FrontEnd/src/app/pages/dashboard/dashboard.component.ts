@@ -5,7 +5,7 @@ import { DashboardService } from './dashboard.service';
 
 @Component({
     selector: 'dashboard-cmp',
-    templateUrl: 'dashboard.component.html'
+    templateUrl: './dashboard.component.html'
 })
 
 export class DashboardComponent implements OnInit{

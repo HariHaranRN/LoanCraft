@@ -7,7 +7,7 @@ import { PayInterestService } from './payInterest.service';
 
 @Component({
     selector: 'payInterest-cmp',
-    templateUrl: 'payInterest.component.html'
+    templateUrl: './payInterest.component.html'
 })
 
 export class PayInterestComponent implements OnInit{

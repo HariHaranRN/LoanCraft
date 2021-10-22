@@ -16,7 +16,7 @@ declare interface TableData {
 @Component({
     selector: 'loanProgress-cmp',
     moduleId: module.id,
-    templateUrl: 'loanProgress.component.html'
+    templateUrl: './loanProgress.component.html'
 })
 
 export class LoanProgressComponent implements OnInit{

@@ -9,7 +9,7 @@ import { PayInterestService } from '../payInterest/payInterest.service';
 @Component({
     selector: 'newLoan-cmp',
     moduleId: module.id,
-    templateUrl: 'newLoan.component.html'
+    templateUrl: './newLoan.component.html'
 })
 
 export class NewLoanComponent implements OnInit{
