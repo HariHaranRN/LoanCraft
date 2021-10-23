@@ -20,6 +20,7 @@ export class LoanHistoryService{
                 getLoanHistoryByID(loanID: "${loanID}") {
                 date
                 interestPaid
+                loanID
                 }
             }
         `

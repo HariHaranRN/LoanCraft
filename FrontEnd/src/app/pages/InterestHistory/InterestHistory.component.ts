@@ -28,6 +28,9 @@ export class InterestHistoryComponent implements OnInit{
                 for(let i = 0; i < finalResult.length; i++){
                     finalResult[i].date = new Date(finalResult[i].date.replace(/['"]+/g, ''));
                 }
+                finalResult.sort(function (a, b) {
+                    return a.date - b.date;
+                  });
                 this.historyTable = finalResult;
             }else{
                 this.historyTable = [];

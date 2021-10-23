@@ -18,7 +18,7 @@ export class PayInterestService {
         this.spinner.show();
         const query = `
             mutation MyMutation {
-                updatePendingAmount(interestPaid: ${data.interestPaid}, loanID: "${data.loanID}") {
+                updatePendingAmount(interestPaid: ${data.interestPaid}, loanID: "${data.loanID}", dateOfPaid: "${data.dateOfPaid}") {
                 loanID
                 interestPaid
                 isActive

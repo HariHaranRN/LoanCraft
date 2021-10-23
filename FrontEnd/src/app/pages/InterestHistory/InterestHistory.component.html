@@ -19,17 +19,17 @@
         <thead>
             <tr>
               <th scope="col">#</th>
+              <th scope="col">HISTORY ID</th>
               <th scope="col">DATE OF PAID</th>
-              <th>TIME</th>
-              <th scope="col">AMOUNT</th>
+              <th scope="col">AMOUNT(₹)</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let row of historyTable; index as i">
                 <td>{{ i + 1 }}</td>
+                <td>{{ row.loanID }}</td>
                 <td>{{ row.date | date:'dd-MM-yyyy' }}</td>
-                <td>{{row.date | date: 'hh:mm:ss'}}</td>
-                <td>{{row.interestPaid }} rs</td>
+                <td class="text-success"><b>{{row.interestPaid }}</b></td>
             </tr>
           </tbody>
         </table>

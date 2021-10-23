@@ -16,6 +16,7 @@ export class PayInterestComponent implements OnInit{
     interestPaid;
     pendingAmount = 0;
     interestAmount;
+    dateOfPaid;
     showForm = true;
     showStatus = false;
 
@@ -31,8 +32,10 @@ export class PayInterestComponent implements OnInit{
             pName: [{ value: "", disabled: true},[Validators.required]],
             mobileNo: [{ value: "", disabled: true},[Validators.required]],
             amount: [{ value: "", disabled: true},[Validators.required]],
-            interest: [{ value: "", disabled: true},[Validators.required]]
+            interest: [{ value: "", disabled: true},[Validators.required]],
+            paidInterest: [{ value: "", disabled: true},[Validators.required]]
         });
+        this.dateOfPaid = new Date().toISOString().split('T')[0];
         this.showForm = true;
         this.showStatus = false;
     }
@@ -40,7 +43,6 @@ export class PayInterestComponent implements OnInit{
         this.showForm = true;
         this.showStatus = false;
     }
-
 
     async searchByID(){
         let result = await this.LPS.getLoanByID(this.searchID);
@@ -64,6 +66,7 @@ export class PayInterestComponent implements OnInit{
                 this.disabledForm.get('mobileNo').setValue(finalResult[0].mobile);
                 this.disabledForm.get("amount").setValue(finalResult[0].amount);
                 this.disabledForm.get("interest").setValue(finalResult[0].interest);
+                this.disabledForm.get("paidInterest").setValue(finalResult[0].interestPaid);
                 this.showForm = true;
                 this.showStatus = false;
             }else{
@@ -74,6 +77,7 @@ export class PayInterestComponent implements OnInit{
                 this.disabledForm.get('mobileNo').setValue("");
                 this.disabledForm.get("amount").setValue("");
                 this.disabledForm.get("interest").setValue("");
+                this.disabledForm.get("paidInterest").setValue("");
                 this.showForm = true;
                 this.showStatus = false;
                 this.Toastr.error( "Wrong Loan ID", '', {
@@ -103,8 +107,9 @@ export class PayInterestComponent implements OnInit{
         var data: any = [];
         data.loanID = this.disabledForm.value.loanID;
         data.interestPaid = this.interestAmount;
+        data.dateOfPaid = this.dateOfPaid;
         let result = await this.PIS.updateLoanInterest(data);
-        if(result.data){
+        if(result.data.updatePendingAmount){
             this.showForm = false;
             this.showStatus = true;
             this.interestAmount = 0;
