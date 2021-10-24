@@ -22,12 +22,10 @@ export class InterestHistoryComponent implements OnInit{
     }
 
     async searchByID(){
+        this.historyTable = []
         let result = await this.LHS.getLoanHistorys(this.searchID);
         let finalResult = result.data.getLoanHistoryByID;
             if(finalResult.length > 0){
-                for(let i = 0; i < finalResult.length; i++){
-                    finalResult[i].date = new Date(finalResult[i].date.replace(/['"]+/g, ''));
-                }
                 finalResult.sort(function (a, b) {
                     return a.date - b.date;
                   });
