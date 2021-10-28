@@ -1,7 +1,7 @@
 # LoanCraft
 This my Mean Stack application developed with my own concept.
 
- --Get the code  
+ --Clone the code  
 
  --Run 'npm install' for both front end and backend codes.
  
